@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WARUNG MADURA 3000 — Buka 24 Jam Nonstop</title>
+  <meta name="description" content="Warung Madura Gen Z 24 Jam Nonstop terintegrasi AI Chatbot Cak Madura Realtime. Solusi lapar jam 3 pagi, bensin eceran murni, sembako super rapi, dan Es Capcin segarrr.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Marquee Banner -->
+  <div class="top-marquee" aria-label="Informasi Operasional">
+    <div class="marquee-track">
+      <span>🚨 BUKA 24 JAM NONSTOP 365 HARI • LIBUR H-1 KIAMAT 🚨</span>
+      <span>🤖 AI CHATBOT CAK MADURA REALTIME READY (OPENAI POWERED)</span>
+      <span>⛽ PERTAMINI LIQUID GOLD READY 100% TANPA CAMPURAN AIR</span>
+      <span>🍜 INDOMIE KUAH & GORENG RACIKAN CAK MADURA HOT & FRESH</span>
+      <span>🧊 ES CAPCIN & POP ICE BLENDER DINGINNYA NUSUS TULANG</span>
+    </div>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="#" class="brand-logo" aria-label="Warung Madura 3000 Beranda">
+        <span class="logo-badge">WM3K</span>
+        <div class="logo-text">
+          <span class="logo-title">WARUNG MADURA</span>
+          <span class="logo-subtitle">GEN-Z ULTRA CONVENIENCE</span>
+        </div>
+      </a>
+
+      <!-- Live Uptime & Status -->
+      <div class="live-status-pill">
+        <span class="status-dot pulsing"></span>
+        <span class="status-label">STATUS: <strong id="live-status-text">BUKA 24/7</strong></span>
+        <span class="status-clock" id="live-clock">00:00:00 WIB</span>
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <button id="ai-settings-btn" class="icon-btn sound-click" aria-label="Pengaturan AI Key" title="Setting AI Provider API">
+          <i class="fa-solid fa-robot"></i>
+        </button>
+
+        <button id="sound-toggle-btn" class="icon-btn sound-click" aria-label="Toggle Sound Effects" title="Aktifkan/Matikan Suara">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+
+        <button id="open-cart-btn" class="cart-trigger-btn sound-click" aria-label="Buka Keranjang Belanja">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="btn-text">Keranjang</span>
+          <span id="cart-badge-count" class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-bg-grid"></div>
+      <div class="hero-container">
+        
+        <div class="hero-content">
+          <div class="genz-tag-group">
+            <span class="tag tag-red"><i class="fa-solid fa-bolt"></i> REALTIME AI INTEGRATED</span>
+            <span class="tag tag-yellow"><i class="fa-solid fa-fire"></i> KELONTONG SKENA</span>
+            <span class="tag tag-green"><i class="fa-solid fa-shield-halved"></i> STOK KACA RAPI</span>
+          </div>
+
+          <h1 class="hero-title">
+            GAK TIDUR? <br>
+            <span class="text-stroke">KITA JUGA</span> <br>
+            <span class="text-highlight">GAK TIDUR!</span>
+          </h1>
+
+          <p class="hero-description">
+            Solusi penyelamat jam 3 pagi: Bensin Pertamini murni, Indomie kuah kornet, rokok batangan, beras premium, sampai Es Capcin dingin. Tanya stok real-time ke <strong>Cak Madura AI</strong>!
+          </p>
+
+          <div class="hero-cta-buttons">
+            <a href="#katalog" class="btn btn-primary btn-lg sound-click">
+              <i class="fa-solid fa-basket-shopping"></i> Gas Belanja Sekarang
+            </a>
+            <a href="#chat-cak" class="btn btn-outline btn-lg sound-click">
+              <i class="fa-solid fa-robot"></i> Tanya Cak Madura AI
+            </a>
+          </div>
+
+          <!-- Counter Grid -->
+          <div class="hero-stats-grid">
+            <div class="stat-card">
+              <div class="stat-value" id="uptime-days">99.9%</div>
+              <div class="stat-label">Uptime Operasional</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">24/7/365</div>
+              <div class="stat-label">Tanpa Jam Tutup</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">&lt; 3 MIN</div>
+              <div class="stat-label">Kecepatan Seduh Indomie</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">100%</div>
+              <div class="stat-label">Kerapihan Rak Kaca</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual Display -->
+        <div class="hero-visual">
+          <div class="glass-display-case">
+            <div class="case-header">
+              <span class="case-dots"><i></i><i></i><i></i></span>
+              <span class="case-title"><i class="fa-solid fa-store"></i> DISPLAY RAK KACA VIRTUAL</span>
+              <span class="badge-live">LIVE STOK</span>
+            </div>
+            <div class="case-body">
+              <div class="shelf-row">
+                <div class="shelf-item glow-hover sound-click" data-quick-add="Indomie Goreng Special">
+                  <div class="shelf-tag">Raku #1</div>
+                  <div class="shelf-emoji">🍜</div>
+                  <div class="shelf-name">Indomie Goreng</div>
+                  <div class="shelf-price">Rp 3.500</div>
+                </div>
+                <div class="shelf-item glow-hover sound-click" data-quick-add="Es Capcin Bubble Extra Ice">
+                  <div class="shelf-tag">Raku #2</div>
+                  <div class="shelf-emoji">🧋</div>
+                  <div class="shelf-name">Es Capcin</div>
+                  <div class="shelf-price">Rp 8.000</div>
+                </div>
+              </div>
+              <div class="shelf-row">
+                <div class="shelf-item glow-hover sound-click" data-quick-add="Pertamini Gold (1 Liter)">
+                  <div class="shelf-tag">Pom #1</div>
+                  <div class="shelf-emoji">⛽</div>
+                  <div class="shelf-name">Pertamini Gold</div>
+                  <div class="shelf-price">Rp 13.500</div>
+                </div>
+                <div class="shelf-item glow-hover sound-click" data-quick-add="Kopi Kapal Api Seduh Panas">
+                  <div class="shelf-tag">Racik #3</div>
+                  <div class="shelf-emoji">☕</div>
+                  <div class="shelf-name">Kopi Seduh</div>
+                  <div class="shelf-price">Rp 4.000</div>
+                </div>
+              </div>
+              <div class="glass-reflection"></div>
+            </div>
+            <div class="case-footer">
+              <small><i class="fa-solid fa-hand-pointer"></i> Klik produk di rak untuk quick-add ke keranjang!</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Bento Specialty Features Grid -->
+    <section class="bento-section">
+      <div class="section-container">
+        <div class="section-header text-center">
+          <span class="section-tag">LAYANAN UNGGULAN</span>
+          <h2 class="section-title">KENAPA WARUNG MADURA KITA <span class="text-highlight">BEDA?</span></h2>
+          <p class="section-subtitle">Estetika warung rakyat dipadu dengan efisiensi AI modern & kecerdasan buatan.</p>
+        </div>
+
+        <div class="bento-grid">
+          
+          <!-- Bento 1: Pertamini Simulator -->
+          <div class="bento-card bento-wide pertamini-card">
+            <div class="card-badge"><i class="fa-solid fa-gas-pump"></i> SIMULATOR BENSIN</div>
+            <h3>PERTAMINI LIQUID GOLD 24 JAM</h3>
+            <p>Beli bensin eceran gak perlu tebak-tebak. Hitung liter & rupiah secara presisi lewat slider interaktif.</p>
+
+            <div class="pertamini-widget">
+              <div class="fuel-selector">
+                <button class="fuel-type-btn active" data-fuel="pertamax" data-price="13500">
+                  Pertamax Gold (Rp 13.500/L)
+                </button>
+                <button class="fuel-type-btn" data-fuel="pertalite" data-price="10000">
+                  Pertalite Super (Rp 10.000/L)
+                </button>
+              </div>
+
+              <div class="slider-control">
+                <label for="liter-range">Jumlah Volume: <strong id="liter-output">2.0</strong> Liter</label>
+                <input type="range" id="liter-range" min="0.5" max="10" step="0.5" value="2.0">
+              </div>
+
+              <div class="pertamini-meter">
+                <div class="meter-box">
+                  <span class="meter-label">TOTAL HARGA (RP)</span>
+                  <span class="meter-digital" id="meter-price-display">27.000</span>
+                </div>
+                <div class="meter-box">
+                  <span class="meter-label">VOLUME (LITER)</span>
+                  <span class="meter-digital" id="meter-liter-display">2.00</span>
+                </div>
+              </div>
+
+              <button id="add-pertamini-btn" class="btn btn-secondary w-full sound-click">
+                <i class="fa-solid fa-plus-circle"></i> Tambah Bensin ke Keranjang
+              </button>
+            </div>
+          </div>
+
+          <!-- Bento 2: Paket Skena Begadang -->
+          <div class="bento-card combo-card">
+            <div class="card-badge badge-purple"><i class="fa-solid fa-moon"></i> PAKET SKENA BEGADANG</div>
+            <h3>COMBO DEADLINE 03:00 AM</h3>
+            <p>Formulasi khusus buat kamu yang lagi kejar revisi / push rank malam.</p>
+            <ul class="combo-list">
+              <li><i class="fa-solid fa-check"></i> 1x Indomie Goreng Double Telur</li>
+              <li><i class="fa-solid fa-check"></i> 1x Es Capcin Extra Ice</li>
+              <li><i class="fa-solid fa-check"></i> 1x Air Mineral 1.5L</li>
+              <li><i class="fa-solid fa-check"></i> 1x Snack Ringan Pilihan</li>
+            </ul>
+            <div class="combo-price-row">
+              <div class="price-box">
+                <span class="old-price">Rp 25.000</span>
+                <span class="new-price">Rp 19.900</span>
+              </div>
+              <button class="btn btn-primary sound-click" id="buy-combo-btn">
+                Ambil Combo
+              </button>
+            </div>
+          </div>
+
+          <!-- Bento 3: Kalkulator Kembalian & Permen -->
+          <div class="bento-card change-calc-card">
+            <div class="card-badge badge-green"><i class="fa-solid fa-calculator"></i> KALKULATOR KEMBALIAN</div>
+            <h3>BAYAR PAKAI UANG PAS / KEMBALIAN PERMEN?</h3>
+            <p>Simulasi bayar pakai pecahan uang kertas & fitur tukar permen ikonik.</p>
+            
+            <div class="calc-inputs">
+              <div class="form-group">
+                <label for="total-belanja-input">Total Belanja (Rp):</label>
+                <input type="number" id="total-belanja-input" value="17500" step="500">
+              </div>
+              <div class="form-group">
+                <label for="uang-bayar-input">Uang Dibayar (Rp):</label>
+                <select id="uang-bayar-input">
+                  <option value="20000">Rp 20.000</option>
+                  <option value="50000" selected>Rp 50.000</option>
+                  <option value="100000">Rp 100.000</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calc-result-box">
+              <div class="calc-row">
+                <span>Kembalian Tunai:</span>
+                <strong id="calc-kembalian-cash">Rp 32.500</strong>
+              </div>
+              <div class="calc-row text-muted">
+                <span>Konversi Permen (Jika Pecahan Kecil Habis):</span>
+                <strong id="calc-kembalian-permen">5 Butir Permen + Rp 30.000</strong>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Catalog Section -->
+    <section id="katalog" class="catalog-section">
+      <div class="section-container">
+        
+        <div class="catalog-header-flex">
+          <div>
+            <span class="section-tag">ETALASE DIGITAL</span>
+            <h2 class="section-title">KATALOG SEMBAKO & <span class="text-highlight">JAJAN 24/7</span></h2>
+          </div>
+
+          <!-- Search & Filter Controls -->
+          <div class="catalog-controls">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="product-search-input" placeholder="Cari Indomie, Beras, Capcin, Rokok...">
+              <button id="clear-search-btn" class="clear-btn" aria-label="Hapus Pencarian">&times;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="filter-chips-wrapper">
+          <button class="chip active" data-category="all">Semua Produk</button>
+          <button class="chip" data-category="sembako">🌾 Sembako & Beras</button>
+          <button class="chip" data-category="makanan">🍜 Indomie & Seduhan</button>
+          <button class="chip" data-category="minuman">🧊 Es Capcin & Minuman</button>
+          <button class="chip" data-category="snack">🍿 Snack & Skena</button>
+          <button class="chip" data-category="pertamini">⛽ Pertamini Gold</button>
+          <button class="chip" data-category="essential">💊 Obat & Daily Essential</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="product-grid">
+          <!-- Dynamic insertion via JavaScript -->
+        </div>
+
+        <!-- Empty state fallback -->
+        <div id="empty-catalog-state" class="empty-state hidden">
+          <div class="empty-icon">🔍</div>
+          <h3>Barang Gak Ditemukan, Cak!</h3>
+          <p>Coba cari kata kunci lain atau tanya langsung ke Cak Madura AI di chatbot bawah.</p>
+          <button id="reset-filter-btn" class="btn btn-outline sound-click">Reset Pencarian</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- AI Chatbot Section (Real OpenAI & Grounded RAG Scope) -->
+    <section id="chat-cak" class="chat-section">
+      <div class="section-container">
+        <div class="chat-widget-card">
+          
+          <div class="chat-header">
+            <div class="avatar-box">
+              <div class="avatar-img">👳‍♂️</div>
+              <div class="avatar-info">
+                <h3>Cak Madura AI (Real Model & RAG)</h3>
+                <span class="online-indicator" id="ai-status-indicator">
+                  <i class="fa-solid fa-circle text-green"></i> AI Active (OpenAI-Compatible Engine)
+                </span>
+              </div>
+            </div>
+            <div class="chat-header-actions">
+              <button id="open-ai-settings-modal" class="btn btn-outline btn-sm sound-click" title="Atur API Key / Model Provider">
+                <i class="fa-solid fa-sliders"></i> Config API
+              </button>
+              <button id="clear-chat-btn" class="btn btn-outline btn-sm sound-click" title="Bersihkan Chat">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+
+          <div id="chat-messages-container" class="chat-messages">
+            <div class="chat-bubble bot">
+              <div class="bubble-content">
+                Halo dek! Mau cari apa jam segini? Beras ready, bensin eceran full, Indomie kuah kornet siap seduh. Aku ini AI Toko Madura 3000, tanya seputar produk & toko kita ya! (Pertanyaan di luar warung bakal tak tolak halus, hehe)
+              </div>
+              <span class="chat-time">Baru saja</span>
+            </div>
+          </div>
+
+          <!-- Typing Animation Indicator -->
+          <div id="chat-typing-indicator" class="typing-indicator hidden">
+            <span>Cak Madura AI sedang meracik jawaban...</span>
+            <div class="typing-dots">
+              <i></i><i></i><i></i>
+            </div>
+          </div>
+
+          <!-- Quick Suggestions -->
+          <div class="quick-prompts">
+            <span class="prompt-title">Tanya Cak Madura:</span>
+            <button class="prompt-btn sound-click" data-prompt="Cak, warung libur hari apa aja?">Cak, warung libur hari apa?</button>
+            <button class="prompt-btn sound-click" data-prompt="Berapa harga Indomie kuah kornet telur setengah matang?">Berapa harga Indomie + Telur?</button>
+            <button class="prompt-btn sound-click" data-prompt="Bensin eceran Pertamini murni gak dicampur air?">Bensin eceran murni gak?</button>
+            <button class="prompt-btn sound-click" data-prompt="Tuliskan kode python untuk sorting algorithm array">(Tes Out-of-Scope: Coding Python)</button>
+          </div>
+
+          <form id="chat-input-form" class="chat-input-row">
+            <input type="text" id="chat-user-input" placeholder="Ketik pertanyaan seputar Warung Madura..." autocomplete="off" required>
+            <button type="submit" id="send-msg-btn" class="btn btn-primary sound-click">
+              <i class="fa-solid fa-paper-plane"></i> Kirim
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- AI API Settings Modal Drawer -->
+  <div id="ai-modal-overlay" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-robot text-highlight"></i> AI Provider Configuration</h3>
+        <button id="close-ai-modal-btn" class="close-drawer-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 1rem;">
+          Hubungkan Chatbot Cak Madura ke endpoint API OpenAI-Compatible pilihanmu (OpenAI, Groq, OpenRouter, DeepSeek, atau Ollama Local). 
+        </p>
+
+        <div class="form-group">
+          <label for="cfg-base-url">Base URL Endpoint:</label>
+          <input type="text" id="cfg-base-url" placeholder="https://api.openai.com/v1" value="https://api.openai.com/v1">
+          <small class="text-muted">Contoh Groq: <code>https://api.groq.com/openai/v1</code></small>
+        </div>
+
+        <div class="form-group">
+          <label for="cfg-api-key">API Key:</label>
+          <input type="password" id="cfg-api-key" placeholder="sk-proj-..." autocomplete="off">
+          <small class="text-muted">Disimpan di LocalStorage browser kamu secara aman.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="cfg-model-name">Model Name:</label>
+          <input type="text" id="cfg-model-name" placeholder="gpt-4o-mini" value="gpt-4o-mini">
+          <small class="text-muted">Contoh Groq: <code>llama-3.3-70b-versatile</code>, OpenRouter: <code>deepseek/deepseek-chat</code></small>
+        </div>
+
+        <div class="form-group">
+          <label for="cfg-temperature">Temperature (0.1 - 1.0):</label>
+          <input type="number" id="cfg-temperature" step="0.1" min="0.1" max="1.0" value="0.7">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="save-ai-cfg-btn" class="btn btn-primary w-full sound-click">
+          <i class="fa-solid fa-floppy-disk"></i> Simpan Konfigurasi AI
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer Slide-over -->
+  <div id="cart-drawer-overlay" class="drawer-overlay hidden">
+    <aside class="cart-drawer" role="dialog" aria-label="Keranjang Belanja">
+      <div class="drawer-header">
+        <h2><i class="fa-solid fa-basket-shopping"></i> Keranjang Warung</h2>
+        <button id="close-cart-btn" class="close-drawer-btn" aria-label="Tutup Keranjang">&times;</button>
+      </div>
+
+      <div id="cart-items-container" class="drawer-body">
+        <!-- Render items dynamically -->
+      </div>
+
+      <div class="drawer-footer">
+        <div class="promo-code-row">
+          <input type="text" id="promo-input" placeholder="Kode Promo (e.g. MADURA247)">
+          <button id="apply-promo-btn" class="btn btn-outline sound-click">KLAIM</button>
+        </div>
+        <div id="promo-discount-badge" class="discount-badge hidden">
+          🎉 Diskon Promo 10% Diterapkan!
+        </div>
+
+        <div class="cart-summary-rows">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="cart-subtotal-text">Rp 0</span>
+          </div>
+          <div class="summary-row text-green">
+            <span>Potongan Promo</span>
+            <span id="cart-discount-text">- Rp 0</span>
+          </div>
+          <div class="summary-row summary-total">
+            <span>Total Akhir</span>
+            <strong id="cart-total-text">Rp 0</strong>
+          </div>
+        </div>
+
+        <button id="checkout-btn" class="btn btn-primary w-full btn-lg sound-click" disabled>
+          <i class="fa-brands fa-whatsapp"></i> Pesan via WhatsApp / Kurir Warung
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Footer Section -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="brand-logo">
+          <span class="logo-badge">WM3K</span>
+          <span class="logo-title">WARUNG MADURA 3000</span>
+        </div>
+        <p>Solusi serba ada 24 jam nonstop untuk kaum Gen Z & millennial. Beras lengkap, bensin terjamin, Indomie mantap terintegrasi AI.</p>
+        <div class="footer-tags">
+          <span class="tag tag-sm">#MaduraTech</span>
+          <span class="tag tag-sm">#OpenAIIntegrated</span>
+          <span class="tag tag-sm">#BukaSampaiKiamat</span>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>Navigasi Cepat</h4>
+        <ul>
+          <li><a href="#katalog">Katalog Sembako</a></li>
+          <li><a href="#katalog">Es Capcin & Seduhan</a></li>
+          <li><a href="#chat-cak">Chat Cak Madura AI</a></li>
+          <li><a href="#katalog">Pertamini Liquid Gold</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-info">
+        <h4>Lokasi & Kontak</h4>
+        <p><i class="fa-solid fa-location-dot"></i> Pinggir Jalan Utama, Depan Komplek (Lampu Neon Merah-Kuning)</p>
+        <p><i class="fa-solid fa-phone"></i> Hotline 24 Jam: 0812-MADURA-3000</p>
+        <p><i class="fa-solid fa-clock"></i> Buka 24 Jam 7 Hari Seminggu</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom text-center">
+      <p>&copy; 2025 Warung Madura 3000. Dibuat dengan 💻, 🍜, dan kehangatan khas Madura.</p>
+    </div>
+  </footer>
+
+  <!-- Custom JavaScript -->
+  <script src="script.js" defer></script>
+</body>
+</html>
