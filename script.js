@@ -1,6 +1,6 @@
 /**
  * WARUNG MADURA 3000 - GEN Z ULTRA CONVENIENCE STORE
- * Front-end Logic connected seamlessly to Vercel Serverless AI API (/api/chat)
+ * Front-end Logic & Natural Fallback Engine
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,14 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'wm-12', name: 'Tolak Angin Cair (1 Sachet)', category: 'essential', price: 4000, icon: '🌿', tag: 'ANTI MASUK ANGIN', desc: 'Penyelamat pas pulang malam keanginan naik motor.' }
   ];
 
-  // Application State
+  // State
   let cart = [];
   let currentCategory = 'all';
   let searchQuery = '';
   let promoDiscount = 0;
   let isSoundEnabled = true;
-
-  // Chat conversation memory
   let conversationHistory = [];
 
   // =========================================================================
@@ -110,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateClock();
 
   // =========================================================================
-  // 3. Catalog Render & Filter
+  // 3. Catalog Render
   // =========================================================================
   const productGrid = document.getElementById('product-grid');
   const emptyState = document.getElementById('empty-catalog-state');
@@ -194,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
 
   // =========================================================================
-  // 4. Cart Engine Logic
+  // 4. Cart Engine
   // =========================================================================
   const cartDrawerOverlay = document.getElementById('cart-drawer-overlay');
   const openCartBtn = document.getElementById('open-cart-btn');
@@ -465,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
   calculateChange();
 
   // =========================================================================
-  // 6. CONNECT TO VERCEL SERVERLESS AI ROUTE (/api/chat)
+  // 6. CONNECT TO VERCEL SERVERLESS AI ROUTE (/api/chat) & DIRECT AI FALLBACK
   // =========================================================================
   const chatMessagesContainer = document.getElementById('chat-messages-container');
   const chatInputForm = document.getElementById('chat-input-form');
@@ -474,33 +472,89 @@ document.addEventListener('DOMContentLoaded', () => {
   const sendMsgBtn = document.getElementById('send-msg-btn');
   const aiStatusIndicator = document.getElementById('ai-status-indicator');
 
-  // Fallback engine if Vercel serverless is not reachable (e.g. static preview)
-  function getLocalFallbackResponse(userMsg) {
-    const lower = userMsg.toLowerCase();
+  // Direct AI API Config (Digunakan saat running static tanpa Vercel serverless dev server)
+  const CLIENT_AI_CONFIG = {
+    baseUrl: 'https://router.juan.web.id/v1',
+    apiKey: 'sk-UfiaMawQpRnVjQ6RvTOfOhVQPoYo1aE7ZOGNvC0lJw5aju5u',
+    model: 'gemini-3.5-flash-lite'
+  };
 
-    const outOfScopeKeywords = ['python', 'javascript', 'coding', 'script', 'function', 'matematika', 'fisika', 'politik', 'presiden', 'skripsi', 'algoritma', 'essay'];
-    if (outOfScopeKeywords.some(kw => lower.includes(kw))) {
-      return "Waduh dek! Cak Madura ini jagonya racik Indomie kuah kornet sama nakar Pertamini murni jam 3 pagi, bukan guru les coding/akademik! Mending sam seduh Kopi Kapal Api atau beli Paket Begadang biar seger pikiran!";
+  const storeKnowledge = `
+PENGETAHUAN ETALASE & PRODUK WARUNG MADURA 3000:
+1. Makanan & Seduhan:
+   - Indomie Goreng Special: Rp 3.500 (bisa minta diracik pedas rawit)
+   - Indomie Kuah Ayam Bawang + Telur: Rp 6.500 (favorit begadang subuh)
+   - Katak & Potato Ring Snack: Rp 5.000
+   - Paket Skena Begadanger 03:00 AM: Rp 19.900 (Indomie Double Telur + Es Capcin + Air + Snack)
+2. Minuman & Es:
+   - Es Capcin Bubble Extra Ice: Rp 8.000 (Cappuccino cincau blender)
+   - Pop Ice Chocolate Top Cincau: Rp 6.000
+   - Kopi Kapal Api Seduh Panas: Rp 4.000 (hitam mantap penahan kantuk)
+   - Air Mineral Botol: Rp 4.000
+3. Sembako & Daily Needs:
+   - Beras Premium Madura 5 kg: Rp 68.000 (pulen 100%)
+   - Minyak Goreng Sawit 2 Liter: Rp 34.000
+   - Rokok Filter Batangan: Rp 2.500 / batang
+   - Paracetamol / Obat Sakit Kepala: Rp 4.500
+   - Tolak Angin Cair: Rp 4.000
+4. Pertamini Eceran:
+   - Pertamini Gold (Pertamax Murni 100% no campuran air): Rp 13.500 / liter
+   - Pertalite Super: Rp 10.000 / liter
+5. Info Layanan Toko:
+   - Jam Operasional: Buka 24 JAM NONSTOP 365 HARI (Libur H-1 Kiamat).
+   - Kode Promo Voucher: "MADURA247" atau "GENZ" di web keranjang dapet diskon 10%.
+   - Fitur Kasir: Uang kembalian pecahan koin kecil kalau kosong biasa diganti permen. Pesanan bisa ditaruh keranjang web lalu checkout via WhatsApp.
+`;
+
+  const systemPrompt = `Kamu adalah "Cak Madura AI", seorang penjaga sekaligus kasir Warung Madura 3000 yang ramah, santai, humoris, gaul, dan suka bercanda spontan layaknya manusia asli yang lagi nungguin warung kelontong jam 3 pagi.
+
+IDENTITAS & ATURAN INTERAKSI:
+- Panggil pembeli dengan panggilan akrab: "Cak", "sam", "dek", "rek", "bos".
+- Gunakan bahasa percakapan santai sehari-hari khas Madura/Jawa-Timuran. DILARANG MENGGUNAKAN TEMPLATE ATAU KALIMAT JAWABAN YANG KAKU/PAULING/BERULANG.
+- Namamu adalah Cak Madura. Jika pembeli menanyakan siapa namamu, perkenalkan dirimu secara ramah, humoris, dan hangat.
+- Kamu tahu seluruh etalase barang & info toko Warung Madura 3000 dari data pengetahuan etalase berikut:
+${storeKnowledge}
+- Gunakan pengetahuan etalase di atas untuk menjawab pertanyaan seputar barang, harga, atau stok secara akurat.
+- Jika pembeli menanyakan barang yang TIDAK ADA di etalase (seperti charger HP, token listrik, pulsa, casing, dll): Jawab jujur dan santai dengan humor khas warung Madura (boleh nawarin barang ready lain atau ngajak becanda numpang cas di warung).
+- Jika pembeli menanyakan hal di luar urusan warung (seperti kodingan python, matematika, fisika, politik, tugas sekolah): Tolak secara humoris khas penjaga warung kelontong (misal malah nawarin ngopi/makan Indomie daripada pusing mikir kodingan/tugas).
+- Jawablah secara spontan, alami, dan bervariasi (cukup 1 sampai 3 kalimat).`;
+
+  async function fetchDirectAiResponse(userMessage) {
+    const payload = [
+      { role: 'system', content: systemPrompt },
+      ...conversationHistory.slice(-6),
+      { role: 'user', content: userMessage }
+    ];
+
+    const response = await fetch(`${CLIENT_AI_CONFIG.baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CLIENT_AI_CONFIG.apiKey}`
+      },
+      body: JSON.stringify({
+        model: CLIENT_AI_CONFIG.model,
+        messages: payload,
+        temperature: 0.8,
+        max_tokens: 400,
+        stream: false
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Direct AI API HTTP ${response.status}`);
     }
 
-    if (lower.includes('libur') || lower.includes('jam') || lower.includes('tutup')) {
-      return "Warung Madura 3000 buka 24 JAM NONSTOP 365 hari dek! Kita baru libur H-1 Kiamat, mampir aja jam 2 atau 3 pagi tetap melayani!";
+    const data = await response.json();
+    const reply = data.choices?.[0]?.message?.content?.trim();
+    if (!reply) {
+      throw new Error('Respon AI kosong.');
     }
-    if (lower.includes('indomie') || lower.includes('mie') || lower.includes('telur')) {
-      return "Indomie Goreng (Rp 3.500) & Indomie Kuah + Telur (Rp 6.500) ready terus! Bisa request kuah nyemek pedes gurih racikan Cak Madura.";
-    }
-    if (lower.includes('bensin') || lower.includes('pertamini') || lower.includes('pertamax')) {
-      return "Bensin eceran Pertamini Gold kita Rp 13.500/liter, 100% murni tanpa campuran air. Siap diisi ke motor kamu kapan saja!";
-    }
-    if (lower.includes('capcin') || lower.includes('es') || lower.includes('pop ice')) {
-      return "Es Capcin Bubble Extra Ice cuma Rp 8.000 dek! Dinginnya nembus tulang, pas banget penahan gerah begadang!";
-    }
-
-    return "Siap dek! Semua sembako, bensin Pertamini, Indomie, dan Es Capcin ready di etalase. Mau dimasukkan ke keranjang web atau order via WhatsApp?";
+    return reply;
   }
 
-  // Call Serverless API
   async function fetchAiResponse(userMessage) {
+    // 1. Coba Serverless API Route terlebih dahulu (/api/chat)
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -511,29 +565,30 @@ document.addEventListener('DOMContentLoaded', () => {
         })
       });
 
-      if (!res.ok) {
-        throw new Error(`HTTP Error ${res.status}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.reply && !data.useFallback) {
+          aiStatusIndicator.innerHTML = `<i class="fa-solid fa-circle text-green"></i> 🟢 AI Active (${data.model || 'Vercel API'})`;
+          conversationHistory.push({ role: 'user', content: userMessage });
+          conversationHistory.push({ role: 'assistant', content: data.reply });
+          return data.reply;
+        }
       }
-
-      const data = await res.json();
-
-      if (data.useFallback || !data.reply) {
-        return getLocalFallbackResponse(userMessage);
-      }
-
-      if (data.model) {
-        aiStatusIndicator.innerHTML = `<i class="fa-solid fa-circle text-green"></i> 🟢 AI Connected (${data.model})`;
-      }
-
-      // Memory
-      conversationHistory.push({ role: 'user', content: userMessage });
-      conversationHistory.push({ role: 'assistant', content: data.reply });
-
-      return data.reply;
-
     } catch (err) {
-      console.warn('Cannot reach Vercel API /api/chat, activating local RAG:', err);
-      return getLocalFallbackResponse(userMessage);
+      console.warn('Serverless route /api/chat tidak dapat dijangkau, menggunakan Direct AI API client...', err);
+    }
+
+    // 2. Jika /api/chat tidak aktif / static hosting (e.g. Live Server/Direct Open), panggil Direct AI API Endpoint
+    try {
+      const reply = await fetchDirectAiResponse(userMessage);
+      aiStatusIndicator.innerHTML = `<i class="fa-solid fa-circle text-green"></i> 🟢 AI Active (${CLIENT_AI_CONFIG.model})`;
+      conversationHistory.push({ role: 'user', content: userMessage });
+      conversationHistory.push({ role: 'assistant', content: reply });
+      return reply;
+    } catch (directErr) {
+      console.error('Direct AI Call Error:', directErr);
+      aiStatusIndicator.innerHTML = `<i class="fa-solid fa-circle" style="color:var(--gold-yellow)"></i> 🟡 Network Offline`;
+      return "Aduh sam, koneksi internet lagi terputus nih! Coba cek kuotamu dhisik ya, biar Cak Madura bisa jawab lagi!";
     }
   }
 

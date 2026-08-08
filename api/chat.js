@@ -1,11 +1,9 @@
 /**
  * WARUNG MADURA 3000 — VERCEL SERVERLESS AI ROUTE
- * Endpoints: /api/chat
- * Reads Environment Variables securely on Vercel Backend
+ * Pure AI Persona & Dynamic Knowledge Engine (Zero Hardcoded Answer Templates)
  */
 
 export default async function handler(req, res) {
-  // Hanya menerima HTTP POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
@@ -16,68 +14,65 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Pesan user tidak boleh kosong.' });
   }
 
-  // Membaca Environment Variables dari Vercel Dashboard Table
+  // Reading Environment Variables
   const apiKey = process.env.OPENAI_API_KEY || '';
-  const baseUrl = (process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/+$/, '');
-  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
-  const temperature = parseFloat(process.env.OPENAI_TEMPERATURE || '0.7');
+  const baseUrl = (process.env.OPENAI_BASE_URL || 'https://router.juan.web.id/v1').replace(/\/+$/, '');
+  const model = process.env.OPENAI_MODEL || 'gemini-3.5-flash-lite';
+  const temperature = parseFloat(process.env.OPENAI_TEMPERATURE || '0.8');
+  const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '400', 10);
 
-  // Grounded RAG Knowledge Base Catalog
-  const products = [
-    { name: 'Indomie Goreng Special', category: 'makanan', price: 3500, tag: 'BEST SELLER', desc: 'Racikan legend jam 3 pagi. Tekstur kenyal, bumbu pas.' },
-    { name: 'Indomie Kuah Ayam Bawang + Telur', category: 'makanan', price: 6500, tag: 'FAVORIT BEGADANG', desc: 'Kuah hangat gurih lengkap dengan telur racik Cak Madura.' },
-    { name: 'Es Capcin Bubble Extra Ice', category: 'minuman', price: 8000, tag: 'SUPER SEGAR', desc: 'Cappuccino cincau blender manis pas, es melimpah.' },
-    { name: 'Pop Ice Chocolate Top Cincau', category: 'minuman', price: 6000, tag: 'GEN Z MUST', desc: 'Pop ice rasa cokelat premium dengan topping cincau kenyal.' },
-    { name: 'Beras Premium Madura (5 kg)', category: 'sembako', price: 68000, tag: 'PULEN 100%', desc: 'Beras putih bersih, tanpa pemutih buatan, nasi jadi pulen.' },
-    { name: 'Minyak Goreng Sawit (2 Liter)', category: 'sembako', price: 34000, tag: 'STOK LENGKAP', desc: 'Bening jernih, buat goreng kerupuk atau gorengan makin garing.' },
-    { name: 'Pertamini Gold (1 Liter)', category: 'pertamini', price: 13500, tag: 'PURE 100%', desc: 'Bensin eceran murni dari tangki khusus. Tanpa campuran air.' },
-    { name: 'Kopi Kapal Api Seduh Panas', category: 'minuman', price: 4000, tag: 'AMUNISI REVISI', desc: 'Kopi hitam pahit manis mantap, penahan kantuk deadline.' },
-    { name: 'Rokok Filter Batangan (Per Btg)', category: 'snack', price: 2500, tag: 'ECERAN READY', desc: 'Bisa beli batangan santai, disajikan rapi di bungkusnya.' },
-    { name: 'Katak & Snack Potato Ring', category: 'snack', price: 5000, tag: 'CRUNCHY', desc: 'Camilan garing gurih teman nonton film atau push rank.' },
-    { name: 'Obat Sakit Kepala & Paracetamol', category: 'essential', price: 4500, tag: 'P3K 24 JAM', desc: 'Pertolongan pertama waktu pusing mikirin tugas/kerjaan.' },
-    { name: 'Tolak Angin Cair (1 Sachet)', category: 'essential', price: 4000, tag: 'ANTI MASUK ANGIN', desc: 'Penyelamat pas pulang malam keanginan naik motor.' }
-  ];
+  // Murni Pengetahuan Fakta Toko & Etalase (Knowledge Context)
+  const storeKnowledge = `
+PENGETAHUAN ETALASE & PRODUK WARUNG MADURA 3000:
+1. Makanan & Seduhan:
+   - Indomie Goreng Special: Rp 3.500 (bisa minta diracik pedas rawit)
+   - Indomie Kuah Ayam Bawang + Telur: Rp 6.500 (favorit begadang subuh)
+   - Katak & Potato Ring Snack: Rp 5.000
+   - Paket Skena Begadanger 03:00 AM: Rp 19.900 (Indomie Double Telur + Es Capcin + Air + Snack)
+2. Minuman & Es:
+   - Es Capcin Bubble Extra Ice: Rp 8.000 (Cappuccino cincau blender)
+   - Pop Ice Chocolate Top Cincau: Rp 6.000
+   - Kopi Kapal Api Seduh Panas: Rp 4.000 (hitam mantap penahan kantuk)
+   - Air Mineral Botol: Rp 4.000
+3. Sembako & Daily Needs:
+   - Beras Premium Madura 5 kg: Rp 68.000 (pulen 100%)
+   - Minyak Goreng Sawit 2 Liter: Rp 34.000
+   - Rokok Filter Batangan: Rp 2.500 / batang
+   - Paracetamol / Obat Sakit Kepala: Rp 4.500
+   - Tolak Angin Cair: Rp 4.000
+4. Pertamini Eceran:
+   - Pertamini Gold (Pertamax Murni 100% no campuran air): Rp 13.500 / liter
+   - Pertalite Super: Rp 10.000 / liter
+5. Info Layanan Toko:
+   - Jam Operasional: Buka 24 JAM NONSTOP 365 HARI (Libur H-1 Kiamat).
+   - Kode Promo Voucher: "MADURA247" atau "GENZ" di web keranjang dapet diskon 10%.
+   - Fitur Kasir: Uang kembalian pecahan koin kecil kalau kosong biasa diganti permen. Pesanan bisa ditaruh keranjang web lalu checkout via WhatsApp.
+`;
 
-  const productCatalogText = products.map(p => 
-    `- ${p.name} (${p.category}): Rp ${p.price.toLocaleString('id-ID')} | Tag: ${p.tag} | Info: ${p.desc}`
-  ).join('\n');
+  // System Prompt Murni Identitas & Perilaku (Zero Answer Templates)
+  const systemPrompt = `Kamu adalah "Cak Madura AI", seorang penjaga sekaligus kasir Warung Madura 3000 yang ramah, santai, humoris, gaul, dan suka bercanda spontan layaknya manusia asli yang lagi nungguin warung kelontong jam 3 pagi.
 
-  // System Prompt & Guardrails Scope Enforcement
-  const systemPrompt = `Kamu adalah "Cak Madura AI", pemilik dan kasir Warung Madura 3000 (Gen Z Ultra Convenience Store) yang ramah, kocak, gaul ala Gen Z tapi tetap santun dengan dialek khas Madura ("dek", "cak", "sam", "tanean lanjang").
-Warungmu BUKA 24 JAM NONSTOP 365 HARI (Libur H-1 Kiamat).
+IDENTITAS & ATURAN INTERAKSI:
+- Panggil pembeli dengan panggilan akrab: "Cak", "sam", "dek", "rek", "bos".
+- Gunakan bahasa percakapan santai sehari-hari khas Madura/Jawa-Timuran. DILARANG MENGGUNAKAN TEMPLATE ATAU KALIMAT JAWABAN YANG KAKU/PAULING/BERULANG.
+- Namamu adalah Cak Madura. Jika pembeli menanyakan siapa namamu, perkenalkan dirimu secara ramah, humoris, dan hangat.
+- Kamu tahu seluruh etalase barang & info toko Warung Madura 3000 dari data pengetahuan etalase berikut:
+${storeKnowledge}
+- Gunakan pengetahuan etalase di atas untuk menjawab pertanyaan seputar barang, harga, atau stok secara akurat.
+- Jika pembeli menanyakan barang yang TIDAK ADA di etalase (seperti charger HP, token listrik, pulsa, casing, dll): Jawab jujur dan santai dengan humor khas warung Madura (boleh nawarin barang ready lain atau ngajak becanda numpang cas di warung).
+- Jika pembeli menanyakan hal di luar urusan warung (seperti kodingan python, matematika, fisika, politik, tugas sekolah): Tolak secara humoris khas penjaga warung kelontong (misal malah nawarin ngopi/makan Indomie daripada pusing mikir kodingan/tugas).
+- Jawablah secara spontan, alami, dan bervariasi (cukup 1 sampai 3 kalimat).`;
 
-INFORMASI TOKO & KATALOG LENGKAP (RAG KNOWLEDGE BASE):
-1. PRODUK & HARGA:
-${productCatalogText}
-
-2. PAKET COMBO & PROMO:
-- Paket Skena Begadanger 03:00 AM: Rp 19.900 (Indomie Goreng Double Telur + Es Capcin + Air Mineral 1.5L + Snack Potato Ring).
-- Kode Promo Keranjang: "MADURA247" atau "GENZ" dapat diskon 10%.
-
-3. KEMBALIAN & BENSIN PERTAMINI:
-- Pertamini Gold: Rp 13.500/liter (Pertamax Murni 100% tanpa campuran air).
-- Pertalite Super: Rp 10.000/liter.
-- Kembalian receh/koin kecil di bawah Rp 1.000 otomatis bisa diganti butir permen jika koin habis di kasir.
-
-4. ATURAN KETAT & GUARDRAILS (SCOPE ENFORCEMENT):
-- Jawab HANYA pertanyaan yang berhubungan dengan Warung Madura 3000, produk makanan/minuman, bensin Pertamini, jam operasional, lokasi warung, promo, rekomendasi jajan begadang jam 3 pagi, dan cara checkout.
-- JIKA USER MENANYAKAN HAL DI LUAR WARUNG (seperti: menulis kode/program, matematika kompleks, politik, sejarah dunia, ujian/tugas sekolah, fisika kuantum, nulis esai, atau topik non-warung):
-  PRINSIP REFUSAL KETAT: Tolak dengan tegas tapi lucu memakai persona Cak Madura. 
-  Contoh penolakan: "Waduh dek, Cak Madura ini spesialis seduh Indomie sama nakar bensin Pertamini jam 3 pagi, bukan guru les fisika/coding! Mending sam pesan Es Capcin atau Indomie telur nyemek dulu biar pikiran adem!"
-- JANGAN PERNAH KELUAR DARI PERSONA CAK MADURA. Jawab dengan ringkas (maksimal 2-4 kalimat).`;
-
-  // Format payload for OpenAI-Compatible endpoint
   const messagesPayload = [
     { role: 'system', content: systemPrompt },
     ...(Array.isArray(history) ? history.slice(-6) : []),
     { role: 'user', content: message }
   ];
 
-  // If OPENAI_API_KEY is not configured in Vercel Env, send clear signal for fallback
   if (!apiKey || apiKey.trim() === '') {
     return res.status(200).json({ 
       useFallback: true,
-      message: 'API Key belum diset di Vercel Environment Variables Table.' 
+      reason: 'OPENAI_API_KEY belum diset.' 
     });
   }
 
@@ -92,14 +87,15 @@ ${productCatalogText}
         model: model,
         messages: messagesPayload,
         temperature: temperature,
-        max_tokens: 400
+        max_tokens: maxTokens,
+        stream: false
       })
     });
 
     if (!aiResponse.ok) {
       const errText = await aiResponse.text();
       console.error('AI API Provider Error:', aiResponse.status, errText);
-      return res.status(200).json({ useFallback: true, error: `API status ${aiResponse.status}` });
+      return res.status(200).json({ useFallback: true, error: `API HTTP ${aiResponse.status}` });
     }
 
     const data = await aiResponse.json();
@@ -116,7 +112,7 @@ ${productCatalogText}
     });
 
   } catch (error) {
-    console.error('Serverless Error:', error);
+    console.error('Serverless Execution Error:', error);
     return res.status(200).json({ useFallback: true });
   }
 }
