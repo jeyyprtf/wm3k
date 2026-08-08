@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WARUNG MADURA 3000 — Buka 24 Jam Nonstop</title>
-  <meta name="description" content="Warung Madura Gen Z 24 Jam Nonstop terintegrasi AI Chatbot Cak Madura Realtime. Solusi lapar jam 3 pagi, bensin eceran murni, sembako super rapi, dan Es Capcin segarrr.">
+  <meta name="description" content="Warung Madura Gen Z 24 Jam Nonstop. Solusi lapar jam 3 pagi, bensin eceran murni, sembako super rapi, dan Es Capcin segarrr.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +23,7 @@
   <div class="top-marquee" aria-label="Informasi Operasional">
     <div class="marquee-track">
       <span>🚨 BUKA 24 JAM NONSTOP 365 HARI • LIBUR H-1 KIAMAT 🚨</span>
-      <span>🤖 AI CHATBOT CAK MADURA REALTIME READY (OPENAI POWERED)</span>
+      <span>🤖 AI CHATBOT CAK MADURA REALTIME READY (VERCEL SERVERLESS)</span>
       <span>⛽ PERTAMINI LIQUID GOLD READY 100% TANPA CAMPURAN AIR</span>
       <span>🍜 INDOMIE KUAH & GORENG RACIKAN CAK MADURA HOT & FRESH</span>
       <span>🧊 ES CAPCIN & POP ICE BLENDER DINGINNYA NUSUS TULANG</span>
@@ -71,7 +71,7 @@
         
         <div class="hero-content">
           <div class="genz-tag-group">
-            <span class="tag tag-red"><i class="fa-solid fa-bolt"></i> REALTIME AI INTEGRATED</span>
+            <span class="tag tag-red"><i class="fa-solid fa-bolt"></i> VERCEL AI POWERED</span>
             <span class="tag tag-yellow"><i class="fa-solid fa-fire"></i> KELONTONG SKENA</span>
             <span class="tag tag-green"><i class="fa-solid fa-shield-halved"></i> STOK KACA RAPI</span>
           </div>
@@ -328,15 +328,15 @@
             <div class="avatar-box">
               <div class="avatar-img">👳‍♂️</div>
               <div class="avatar-info">
-                <h3>Cak Madura AI (Real Model & RAG)</h3>
+                <h3>Cak Madura AI</h3>
                 <span class="online-indicator" id="ai-status-indicator">
-                  <i class="fa-solid fa-circle text-green"></i> AI Active (OpenAI-Compatible Engine)
+                  <i class="fa-solid fa-circle text-green"></i> 🟢 AI Active (Vercel Serverless Engine)
                 </span>
               </div>
             </div>
             <div class="chat-header-actions">
               <button id="clear-chat-btn" class="btn btn-outline btn-sm sound-click" title="Bersihkan Chat">
-                <i class="fa-solid fa-trash-can"></i>
+                <i class="fa-solid fa-trash-can"></i> Hapus Chat
               </button>
             </div>
           </div>
@@ -344,7 +344,7 @@
           <div id="chat-messages-container" class="chat-messages">
             <div class="chat-bubble bot">
               <div class="bubble-content">
-                Halo dek! Mau cari apa jam segini? Beras ready, bensin eceran full, Indomie kuah kornet siap seduh. Aku ini AI Toko Madura 3000, tanya seputar produk & toko kita ya! (Pertanyaan di luar warung bakal tak tolak halus, hehe)
+                Halo dek! Mau cari apa jam segini? Beras ready, bensin eceran full, Indomie kuah kornet siap seduh. Aku ini AI Toko Madura 3000, tanya seputar produk & toko kita ya!
               </div>
               <span class="chat-time">Baru saja</span>
             </div>
@@ -378,50 +378,6 @@
       </div>
     </section>
   </main>
-
-  <!-- AI API Settings Modal Drawer -->
-  <div id="ai-modal-overlay" class="modal-overlay hidden">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-robot text-highlight"></i> AI Provider Configuration</h3>
-        <button id="close-ai-modal-btn" class="close-drawer-btn">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 1rem;">
-          Hubungkan Chatbot Cak Madura ke endpoint API OpenAI-Compatible pilihanmu (OpenAI, Groq, OpenRouter, DeepSeek, atau Ollama Local). 
-        </p>
-
-        <div class="form-group">
-          <label for="cfg-base-url">Base URL Endpoint:</label>
-          <input type="text" id="cfg-base-url" placeholder="https://api.openai.com/v1" value="https://api.openai.com/v1">
-          <small class="text-muted">Contoh Groq: <code>https://api.groq.com/openai/v1</code></small>
-        </div>
-
-        <div class="form-group">
-          <label for="cfg-api-key">API Key:</label>
-          <input type="password" id="cfg-api-key" placeholder="sk-proj-..." autocomplete="off">
-          <small class="text-muted">Disimpan di LocalStorage browser kamu secara aman.</small>
-        </div>
-
-        <div class="form-group">
-          <label for="cfg-model-name">Model Name:</label>
-          <input type="text" id="cfg-model-name" placeholder="gpt-4o-mini" value="gpt-4o-mini">
-          <small class="text-muted">Contoh Groq: <code>llama-3.3-70b-versatile</code>, OpenRouter: <code>deepseek/deepseek-chat</code></small>
-        </div>
-
-        <div class="form-group">
-          <label for="cfg-temperature">Temperature (0.1 - 1.0):</label>
-          <input type="number" id="cfg-temperature" step="0.1" min="0.1" max="1.0" value="0.7">
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button id="save-ai-cfg-btn" class="btn btn-primary w-full sound-click">
-          <i class="fa-solid fa-floppy-disk"></i> Simpan Konfigurasi AI
-        </button>
-      </div>
-    </div>
-  </div>
 
   <!-- Cart Drawer Slide-over -->
   <div id="cart-drawer-overlay" class="drawer-overlay hidden">
@@ -477,10 +433,10 @@
           <span class="logo-badge">WM3K</span>
           <span class="logo-title">WARUNG MADURA 3000</span>
         </div>
-        <p>Solusi serba ada 24 jam nonstop untuk kaum Gen Z & millennial. Beras lengkap, bensin terjamin, Indomie mantap terintegrasi AI.</p>
+        <p>Solusi serba ada 24 jam nonstop untuk kaum Gen Z & millennial. Beras lengkap, bensin terjamin, Indomie mantap terintegrasi Vercel AI Serverless.</p>
         <div class="footer-tags">
           <span class="tag tag-sm">#MaduraTech</span>
-          <span class="tag tag-sm">#OpenAIIntegrated</span>
+          <span class="tag tag-sm">#VercelAI</span>
           <span class="tag tag-sm">#BukaSampaiKiamat</span>
         </div>
       </div>

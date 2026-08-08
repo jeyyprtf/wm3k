@@ -1,122 +1,24 @@
 /**
  * WARUNG MADURA 3000 - GEN Z ULTRA CONVENIENCE STORE
- * Real OpenAI-Compatible Chatbot with Grounded RAG Scope Guardrails
+ * Front-end Logic connected seamlessly to Vercel Serverless AI API (/api/chat)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // =========================================================================
-  // 1. Store Catalog Knowledge Base (RAG Source of Truth)
-  // =========================================================================
+  // Catalog Products
   const products = [
-    {
-      id: 'wm-01',
-      name: 'Indomie Goreng Special',
-      category: 'makanan',
-      price: 3500,
-      icon: '🍜',
-      tag: 'BEST SELLER',
-      desc: 'Racikan legend jam 3 pagi. Tekstur kenyal, bumbu pas.'
-    },
-    {
-      id: 'wm-02',
-      name: 'Indomie Kuah Ayam Bawang + Telur',
-      category: 'makanan',
-      price: 6500,
-      icon: '🍲',
-      tag: 'FAVORIT BEGADANG',
-      desc: 'Kuah hangat gurih lengkap dengan telur racik Cak Madura.'
-    },
-    {
-      id: 'wm-03',
-      name: 'Es Capcin Bubble Extra Ice',
-      category: 'minuman',
-      price: 8000,
-      icon: '🧋',
-      tag: 'SUPER SEGAR',
-      desc: 'Cappuccino cincau blender manis pas, es melimpah.'
-    },
-    {
-      id: 'wm-04',
-      name: 'Pop Ice Chocolate Top Cincau',
-      category: 'minuman',
-      price: 6000,
-      icon: '🥤',
-      tag: 'GEN Z MUST',
-      desc: 'Pop ice rasa cokelat premium dengan topping cincau kenyal.'
-    },
-    {
-      id: 'wm-05',
-      name: 'Beras Premium Madura (5 kg)',
-      category: 'sembako',
-      price: 68000,
-      icon: '🌾',
-      tag: 'PULEN 100%',
-      desc: 'Beras putih bersih, tanpa pemutih buatan, nasi jadi pulen.'
-    },
-    {
-      id: 'wm-06',
-      name: 'Minyak Goreng Sawit (2 Liter)',
-      category: 'sembako',
-      price: 34000,
-      icon: '🧴',
-      tag: 'STOK LENGKAP',
-      desc: 'Bening jernih, buat goreng kerupuk atau gorengan makin garing.'
-    },
-    {
-      id: 'wm-07',
-      name: 'Pertamini Gold (1 Liter)',
-      category: 'pertamini',
-      price: 13500,
-      icon: '⛽',
-      tag: 'PURE 100%',
-      desc: 'Bensin eceran murni dari tangki khusus. Tanpa campuran air.'
-    },
-    {
-      id: 'wm-08',
-      name: 'Kopi Kapal Api Seduh Panas',
-      category: 'minuman',
-      price: 4000,
-      icon: '☕',
-      tag: 'AMUNISI REVISI',
-      desc: 'Kopi hitam pahit manis mantap, penahan kantuk deadline.'
-    },
-    {
-      id: 'wm-09',
-      name: 'Rokok Filter Batangan (Per Btg)',
-      category: 'snack',
-      price: 2500,
-      icon: '🚬',
-      tag: 'ECERAN READY',
-      desc: 'Bisa beli batangan santai, disajikan rapi di bungkusnya.'
-    },
-    {
-      id: 'wm-10',
-      name: 'Katak & Snack Potato Ring',
-      category: 'snack',
-      price: 5000,
-      icon: '🍿',
-      tag: 'CRUNCHY',
-      desc: 'Camilan garing gurih teman nonton film atau push rank.'
-    },
-    {
-      id: 'wm-11',
-      name: 'Obat Sakit Kepala & Paracetamol',
-      category: 'essential',
-      price: 4500,
-      icon: '💊',
-      tag: 'P3K 24 JAM',
-      desc: 'Pertolongan pertama waktu pusing mikirin tugas/kerjaan.'
-    },
-    {
-      id: 'wm-12',
-      name: 'Tolak Angin Cair (1 Sachet)',
-      category: 'essential',
-      price: 4000,
-      icon: '🌿',
-      tag: 'ANTI MASUK ANGIN',
-      desc: 'Penyelamat pas pulang malam keanginan naik motor.'
-    }
+    { id: 'wm-01', name: 'Indomie Goreng Special', category: 'makanan', price: 3500, icon: '🍜', tag: 'BEST SELLER', desc: 'Racikan legend jam 3 pagi. Tekstur kenyal, bumbu pas.' },
+    { id: 'wm-02', name: 'Indomie Kuah Ayam Bawang + Telur', category: 'makanan', price: 6500, icon: '🍲', tag: 'FAVORIT BEGADANG', desc: 'Kuah hangat gurih lengkap dengan telur racik Cak Madura.' },
+    { id: 'wm-03', name: 'Es Capcin Bubble Extra Ice', category: 'minuman', price: 8000, icon: '🧋', tag: 'SUPER SEGAR', desc: 'Cappuccino cincau blender manis pas, es melimpah.' },
+    { id: 'wm-04', name: 'Pop Ice Chocolate Top Cincau', category: 'minuman', price: 6000, icon: '🥤', tag: 'GEN Z MUST', desc: 'Pop ice rasa cokelat premium dengan topping cincau kenyal.' },
+    { id: 'wm-05', name: 'Beras Premium Madura (5 kg)', category: 'sembako', price: 68000, icon: '🌾', tag: 'PULEN 100%', desc: 'Beras putih bersih, tanpa pemutih buatan, nasi jadi pulen.' },
+    { id: 'wm-06', name: 'Minyak Goreng Sawit (2 Liter)', category: 'sembako', price: 34000, icon: '🧴', tag: 'STOK LENGKAP', desc: 'Bening jernih, buat goreng kerupuk atau gorengan makin garing.' },
+    { id: 'wm-07', name: 'Pertamini Gold (1 Liter)', category: 'pertamini', price: 13500, icon: '⛽', tag: 'PURE 100%', desc: 'Bensin eceran murni dari tangki khusus. Tanpa campuran air.' },
+    { id: 'wm-08', name: 'Kopi Kapal Api Seduh Panas', category: 'minuman', price: 4000, icon: '☕', tag: 'AMUNISI REVISI', desc: 'Kopi hitam pahit manis mantap, penahan kantuk deadline.' },
+    { id: 'wm-09', name: 'Rokok Filter Batangan (Per Btg)', category: 'snack', price: 2500, icon: '🚬', tag: 'ECERAN READY', desc: 'Bisa beli batangan santai, disajikan rapi di bungkusnya.' },
+    { id: 'wm-10', name: 'Katak & Snack Potato Ring', category: 'snack', price: 5000, icon: '🍿', tag: 'CRUNCHY', desc: 'Camilan garing gurih teman nonton film atau push rank.' },
+    { id: 'wm-11', name: 'Obat Sakit Kepala & Paracetamol', category: 'essential', price: 4500, icon: '💊', tag: 'P3K 24 JAM', desc: 'Pertolongan pertama waktu pusing mikirin tugas/kerjaan.' },
+    { id: 'wm-12', name: 'Tolak Angin Cair (1 Sachet)', category: 'essential', price: 4000, icon: '🌿', tag: 'ANTI MASUK ANGIN', desc: 'Penyelamat pas pulang malam keanginan naik motor.' }
   ];
 
   // Application State
@@ -126,19 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let promoDiscount = 0;
   let isSoundEnabled = true;
 
-  // AI Configuration State (Persisted in localStorage)
-  let aiConfig = {
-    baseUrl: localStorage.getItem('wm3k_ai_base_url') || 'https://api.openai.com/v1',
-    apiKey: localStorage.getItem('wm3k_ai_api_key') || '',
-    model: localStorage.getItem('wm3k_ai_model') || 'gpt-4o-mini',
-    temperature: parseFloat(localStorage.getItem('wm3k_ai_temp') || '0.7')
-  };
-
-  // Conversational History for OpenAI API
+  // Chat conversation memory
   let conversationHistory = [];
 
   // =========================================================================
-  // 2. Sound Effects Synthesizer (Web Audio API)
+  // 1. Web Audio API Synthesizer
   // =========================================================================
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -204,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 3. Real-time Clock Ticker
+  // 2. Real-time Clock
   // =========================================================================
   function updateClock() {
     const now = new Date();
@@ -216,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateClock();
 
   // =========================================================================
-  // 4. Catalog Render & Search Logic
+  // 3. Catalog Render & Filter
   // =========================================================================
   const productGrid = document.getElementById('product-grid');
   const emptyState = document.getElementById('empty-catalog-state');
@@ -300,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
 
   // =========================================================================
-  // 5. Cart Engine Logic
+  // 4. Cart Engine Logic
   // =========================================================================
   const cartDrawerOverlay = document.getElementById('cart-drawer-overlay');
   const openCartBtn = document.getElementById('open-cart-btn');
@@ -467,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 6. Pertamini & Change Calculator Widgets
+  // 5. Pertamini & Change Calculator Widgets
   // =========================================================================
   const literRange = document.getElementById('liter-range');
   const literOutput = document.getElementById('liter-output');
@@ -571,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
   calculateChange();
 
   // =========================================================================
-  // 7. REAL AI MODEL CHATBOT (OpenAI Compatible API + RAG Guardrails)
+  // 6. CONNECT TO VERCEL SERVERLESS AI ROUTE (/api/chat)
   // =========================================================================
   const chatMessagesContainer = document.getElementById('chat-messages-container');
   const chatInputForm = document.getElementById('chat-input-form');
@@ -580,93 +474,67 @@ document.addEventListener('DOMContentLoaded', () => {
   const sendMsgBtn = document.getElementById('send-msg-btn');
   const aiStatusIndicator = document.getElementById('ai-status-indicator');
 
-  // AI Modal Elements
-  const aiModalOverlay = document.getElementById('ai-modal-overlay');
-  const openAiSettingsModalBtn = document.getElementById('open-ai-settings-modal');
-  const aiSettingsBtn = document.getElementById('ai-settings-btn');
-  const closeAiModalBtn = document.getElementById('close-ai-modal-btn');
-  const saveAiCfgBtn = document.getElementById('save-ai-cfg-btn');
+  // Fallback engine if Vercel serverless is not reachable (e.g. static preview)
+  function getLocalFallbackResponse(userMsg) {
+    const lower = userMsg.toLowerCase();
 
-  const cfgBaseUrl = document.getElementById('cfg-base-url');
-  const cfgApiKey = document.getElementById('cfg-api-key');
-  const cfgModelName = document.getElementById('cfg-model-name');
-  const cfgTemperature = document.getElementById('cfg-temperature');
-
-  // Populate initial config modal fields
-  cfgBaseUrl.value = aiConfig.baseUrl;
-  cfgApiKey.value = aiConfig.apiKey;
-  cfgModelName.value = aiConfig.model;
-  cfgTemperature.value = aiConfig.temperature;
-
-  function updateAiStatusBadge() {
-    if (aiConfig.apiKey && aiConfig.apiKey.trim() !== '') {
-      aiStatusIndicator.innerHTML = `<i class="fa-solid fa-circle text-green"></i> AI Connected (${aiConfig.model})`;
-    } else {
-      aiStatusIndicator.innerHTML = `<i class="fa-solid fa-circle style="color:var(--gold-yellow)"></i> Hybrid Local RAG (API Key belum diisi)`;
+    const outOfScopeKeywords = ['python', 'javascript', 'coding', 'script', 'function', 'matematika', 'fisika', 'politik', 'presiden', 'skripsi', 'algoritma', 'essay'];
+    if (outOfScopeKeywords.some(kw => lower.includes(kw))) {
+      return "Waduh dek! Cak Madura ini jagonya racik Indomie kuah kornet sama nakar Pertamini murni jam 3 pagi, bukan guru les coding/akademik! Mending sam seduh Kopi Kapal Api atau beli Paket Begadang biar seger pikiran!";
     }
+
+    if (lower.includes('libur') || lower.includes('jam') || lower.includes('tutup')) {
+      return "Warung Madura 3000 buka 24 JAM NONSTOP 365 hari dek! Kita baru libur H-1 Kiamat, mampir aja jam 2 atau 3 pagi tetap melayani!";
+    }
+    if (lower.includes('indomie') || lower.includes('mie') || lower.includes('telur')) {
+      return "Indomie Goreng (Rp 3.500) & Indomie Kuah + Telur (Rp 6.500) ready terus! Bisa request kuah nyemek pedes gurih racikan Cak Madura.";
+    }
+    if (lower.includes('bensin') || lower.includes('pertamini') || lower.includes('pertamax')) {
+      return "Bensin eceran Pertamini Gold kita Rp 13.500/liter, 100% murni tanpa campuran air. Siap diisi ke motor kamu kapan saja!";
+    }
+    if (lower.includes('capcin') || lower.includes('es') || lower.includes('pop ice')) {
+      return "Es Capcin Bubble Extra Ice cuma Rp 8.000 dek! Dinginnya nembus tulang, pas banget penahan gerah begadang!";
+    }
+
+    return "Siap dek! Semua sembako, bensin Pertamini, Indomie, dan Es Capcin ready di etalase. Mau dimasukkan ke keranjang web atau order via WhatsApp?";
   }
-  updateAiStatusBadge();
 
-  // Modal Handlers
-  function openAiModal() {
-    aiModalOverlay.classList.remove('hidden');
-  }
+  // Call Serverless API
+  async function fetchAiResponse(userMessage) {
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: userMessage,
+          history: conversationHistory.slice(-6)
+        })
+      });
 
-  function closeAiModal() {
-    aiModalOverlay.classList.add('hidden');
-  }
+      if (!res.ok) {
+        throw new Error(`HTTP Error ${res.status}`);
+      }
 
-  openAiSettingsModalBtn.addEventListener('click', openAiModal);
-  aiSettingsBtn.addEventListener('click', openAiModal);
-  closeAiModalBtn.addEventListener('click', closeAiModal);
-  aiModalOverlay.addEventListener('click', (e) => {
-    if (e.target === aiModalOverlay) closeAiModal();
-  });
+      const data = await res.json();
 
-  saveAiCfgBtn.addEventListener('click', () => {
-    aiConfig.baseUrl = cfgBaseUrl.value.trim() || 'https://api.openai.com/v1';
-    aiConfig.apiKey = cfgApiKey.value.trim();
-    aiConfig.model = cfgModelName.value.trim() || 'gpt-4o-mini';
-    aiConfig.temperature = parseFloat(cfgTemperature.value) || 0.7;
+      if (data.useFallback || !data.reply) {
+        return getLocalFallbackResponse(userMessage);
+      }
 
-    localStorage.setItem('wm3k_ai_base_url', aiConfig.baseUrl);
-    localStorage.setItem('wm3k_ai_api_key', aiConfig.apiKey);
-    localStorage.setItem('wm3k_ai_model', aiConfig.model);
-    localStorage.setItem('wm3k_ai_temp', aiConfig.temperature.toString());
+      if (data.model) {
+        aiStatusIndicator.innerHTML = `<i class="fa-solid fa-circle text-green"></i> 🟢 AI Connected (${data.model})`;
+      }
 
-    closeAiModal();
-    updateAiStatusBadge();
-    showToast('⚙️ Konfigurasi AI Berhasil Disimpan!');
-  });
+      // Memory
+      conversationHistory.push({ role: 'user', content: userMessage });
+      conversationHistory.push({ role: 'assistant', content: data.reply });
 
-  // Construct Strong System Prompt & Grounded RAG Knowledge Context
-  function buildSystemPrompt() {
-    const productCatalogText = products.map(p => 
-      `- ${p.name} (${p.category}): Rp ${p.price.toLocaleString('id-ID')} | Tag: ${p.tag} | Info: ${p.desc}`
-    ).join('\n');
+      return data.reply;
 
-    return `Kamu adalah "Cak Madura AI", pemilik dan kasir Warung Madura 3000 (Gen Z Ultra Convenience Store) yang ramah, kocak, gaul ala Gen Z tapi tetap santun dengan dialek khas Madura ("dek", "cak", "sam", "tanean lanjang").
-Warungmu BUKA 24 JAM NONSTOP 365 HARI (Libur H-1 Kiamat).
-
-INFORMASI TOKO & KATALOG LENGKAP (RAG KNOWLEDGE BASE):
-1. PRODUK & HARGA:
-${productCatalogText}
-
-2. PAKET COMBO & PROMO:
-- Paket Skena Begadanger 03:00 AM: Rp 19.900 (Indomie Goreng Double Telur + Es Capcin + Air Mineral 1.5L + Snack Potato Ring).
-- Kode Promo Keranjang: "MADURA247" atau "GENZ" dapat diskon 10%.
-
-3. KEMBALIAN & BENSIN PERTAMINI:
-- Pertamini Gold: Rp 13.500/liter (Pertamax Murni 100% tanpa campuran air).
-- Pertalite Super: Rp 10.000/liter.
-- Kembalian receh/koin kecil di bawah Rp 1.000 otomatis bisa diganti butir permen jika koin habis di kasir.
-
-4. ATURAN KETAT & GUARDRAILS (SCOPE ENFORCEMENT):
-- Jawab HANYA pertanyaan yang berhubungan dengan Warung Madura 3000, produk makanan/minuman, bensin Pertamini, jam operasional, lokasi warung, promo, rekomendasi jajan begadang jam 3 pagi, dan cara checkout.
-- JIKA USER MENANYAKAN HAL DI LUAR WARUNG (seperti: menulis kode/program, matematika kompleks, politik, sejarah dunia, ujian/tugas sekolah, fisika kuantum, nulis esai, atau topik non-warung):
-  PRINSIP REFUSAL KETAT: Tolak dengan tegas tapi lucu memakai persona Cak Madura. 
-  Contoh penolakan: "Waduh dek, Cak Madura ini spesialis seduh Indomie sama nakar bensin Pertamini jam 3 pagi, bukan guru les fisika/coding! Mending sam pesan Es Capcin atau Indomie telur nyemek dulu biar pikiran adem!"
-- JANGAN PERNAH KELUAR DARI PERSONA CAK MADURA. Jawab dengan ringkas (maksimal 2-4 kalimat).`;
+    } catch (err) {
+      console.warn('Cannot reach Vercel API /api/chat, activating local RAG:', err);
+      return getLocalFallbackResponse(userMessage);
+    }
   }
 
   function addChatMessage(sender, text) {
@@ -701,92 +569,9 @@ ${productCatalogText}
     );
   }
 
-  // Local RAG Fallback when API Key is missing or network fails
-  function getLocalFallbackResponse(userMsg) {
-    const lower = userMsg.toLowerCase();
-
-    // Check Out-of-Scope triggers locally first
-    const outOfScopeKeywords = ['python', 'javascript', 'coding', 'script', 'function', 'matematika', 'fisika', 'politik', 'presiden', 'skripsi', 'algoritma', 'essay'];
-    if (outOfScopeKeywords.some(kw => lower.includes(kw))) {
-      return "Waduh dek! Cak Madura ini jagonya racik Indomie kuah kornet sama nakar Pertamini murni jam 3 pagi, bukan guru les coding/akademik! Mending sam seduh Kopi Kapal Api atau beli Paket Begadang biar seger pikiran!";
-    }
-
-    if (lower.includes('libur') || lower.includes('jam') || lower.includes('tutup')) {
-      return "Warung Madura 3000 buka 24 JAM NONSTOP 365 hari dek! Kita baru libur H-1 Kiamat, mampir aja jam 2 atau 3 pagi tetap melayani!";
-    }
-    if (lower.includes('indomie') || lower.includes('mie') || lower.includes('telur')) {
-      return "Indomie Goreng (Rp 3.500) & Indomie Kuah + Telur (Rp 6.500) ready terus! Bisa request kuah nyemek pedes gurih racikan Cak Madura.";
-    }
-    if (lower.includes('bensin') || lower.includes('pertamini') || lower.includes('pertamax')) {
-      return "Bensin eceran Pertamini Gold kita Rp 13.500/liter, 100% murni tanpa campuran air. Siap diisi ke motor kamu kapan saja!";
-    }
-    if (lower.includes('capcin') || lower.includes('es') || lower.includes('pop ice')) {
-      return "Es Capcin Bubble Extra Ice cuma Rp 8.000 dek! Dinginnya nembus tulang, pas banget penahan gerah begadang!";
-    }
-
-    return "Siap dek! Semua sembako, bensin Pertamini, Indomie, dan Es Capcin ready di etalase. Mau dimasukkan ke keranjang web atau order via WhatsApp?";
-  }
-
-  // Fetch response from OpenAI-Compatible API
-  async function fetchAiResponse(userMessage) {
-    // If no API key provided, gracefully fallback to local RAG engine
-    if (!aiConfig.apiKey || aiConfig.apiKey.trim() === '') {
-      await new Promise(res => setTimeout(res, 600)); // Simulate typing latency
-      return getLocalFallbackResponse(userMessage);
-    }
-
-    const endpoint = `${aiConfig.baseUrl.replace(/\/+$/, '')}/chat/completions`;
-
-    // Construct API Payload with RAG system prompt + conversation history
-    const messagesPayload = [
-      { role: 'system', content: buildSystemPrompt() },
-      ...conversationHistory.slice(-6), // Keep context concise
-      { role: 'user', content: userMessage }
-    ];
-
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${aiConfig.apiKey}`
-        },
-        body: JSON.stringify({
-          model: aiConfig.model,
-          messages: messagesPayload,
-          temperature: aiConfig.temperature,
-          max_tokens: 400
-        })
-      });
-
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        console.warn('AI API Error:', response.status, errData);
-        throw new Error(errData.error?.message || `API HTTP ${response.status}`);
-      }
-
-      const data = await response.json();
-      const botReply = data.choices[0]?.message?.content?.trim();
-
-      if (!botReply) throw new Error('Format respon AI tidak valid.');
-
-      // Push to history
-      conversationHistory.push({ role: 'user', content: userMessage });
-      conversationHistory.push({ role: 'assistant', content: botReply });
-
-      return botReply;
-
-    } catch (err) {
-      console.error('Fetch AI error, fallback activated:', err);
-      showToast('⚠️ AI API Error, menggunakan Local RAG Fallback');
-      return getLocalFallbackResponse(userMessage);
-    }
-  }
-
   async function handleUserMessage(userMsg) {
     addChatMessage('user', userMsg);
     
-    // Show typing state
     chatTypingIndicator.classList.remove('hidden');
     sendMsgBtn.disabled = true;
 
@@ -829,7 +614,7 @@ ${productCatalogText}
   });
 
   // =========================================================================
-  // 8. Toast Helper
+  // 7. Toast Helper
   // =========================================================================
   const toastContainer = document.getElementById('toast-container');
 
