@@ -5,6 +5,45 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // =========================================================================
+  // 0. LENIS SMOOTH SCROLL ENGINE & ANCHOR NAVIGATION
+  // =========================================================================
+  let lenisInstance = null;
+
+  if (typeof Lenis !== 'undefined') {
+    lenisInstance = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      smoothTouch: false,
+      wheelMultiplier: 1
+    });
+
+    function renderLenis(time) {
+      lenisInstance.raf(time);
+      requestAnimationFrame(renderLenis);
+    }
+    requestAnimationFrame(renderLenis);
+  }
+
+  // Smooth scroll handler for anchor navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
+
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        if (lenisInstance) {
+          lenisInstance.scrollTo(target, { offset: -80, duration: 1.2 });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
   // Catalog Products
   const products = [
     { id: 'wm-01', name: 'Indomie Goreng Special', category: 'makanan', price: 3500, icon: '🍜', tag: 'BEST SELLER', desc: 'Racikan legend jam 3 pagi. Tekstur kenyal, bumbu pas.' },
@@ -299,17 +338,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   openCartBtn.addEventListener('click', () => {
     cartDrawerOverlay.classList.remove('hidden');
+    if (lenisInstance) lenisInstance.stop();
     playSound('click');
   });
 
   closeCartBtn.addEventListener('click', () => {
     cartDrawerOverlay.classList.add('hidden');
+    if (lenisInstance) lenisInstance.start();
     playSound('click');
   });
 
   cartDrawerOverlay.addEventListener('click', (e) => {
     if (e.target === cartDrawerOverlay) {
       cartDrawerOverlay.classList.add('hidden');
+      if (lenisInstance) lenisInstance.start();
     }
   });
 

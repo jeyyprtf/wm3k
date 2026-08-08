@@ -14,6 +14,9 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- Lenis Smooth Scroll Styles -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+
   <!-- Custom Styles -->
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -341,7 +344,7 @@
             </div>
           </div>
 
-          <div id="chat-messages-container" class="chat-messages">
+          <div id="chat-messages-container" class="chat-messages" data-lenis-prevent>
             <div class="chat-bubble bot">
               <div class="bubble-content">
                 Halo dek! Mau cari apa jam segini? Beras ready, bensin eceran full, Indomie kuah kornet siap seduh. Aku ini AI Toko Madura 3000, tanya seputar produk & toko kita ya!
@@ -387,7 +390,7 @@
         <button id="close-cart-btn" class="close-drawer-btn" aria-label="Tutup Keranjang">&times;</button>
       </div>
 
-      <div id="cart-items-container" class="drawer-body">
+      <div id="cart-items-container" class="drawer-body" data-lenis-prevent>
         <!-- Render items dynamically -->
       </div>
 
@@ -463,6 +466,9 @@
       <p>&copy; 2025 Warung Madura 3000. Dibuat dengan 💻, 🍜, dan kehangatan khas Madura.</p>
     </div>
   </footer>
+
+  <!-- Lenis Smooth Scroll Library -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 
   <!-- Custom JavaScript -->
   <script src="script.js" defer></script>
